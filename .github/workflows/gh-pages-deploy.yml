@@ -32,10 +32,25 @@ jobs:
           cd blog
           bundle install --jobs 4 --retry 3
 
+      - name: Create site structure
+        run: |
+          # Create _site directory
+          mkdir -p _site
+          
+          # Copy main index.html to root
+          cp index.html _site/
+          
+          # Copy .htaccess file (handle typo in filename)
+          if [ -f .htacess ]; then
+            cp .htacess _site/.htaccess
+          elif [ -f .htaccess ]; then
+            cp .htaccess _site/.htaccess
+          fi
+
       - name: Build with Jekyll
         run: |
           cd blog
-          bundle exec jekyll build --destination ../_site --trace
+          bundle exec jekyll build --destination ../_site/blog --trace
         env:
           JEKYLL_ENV: production
 
